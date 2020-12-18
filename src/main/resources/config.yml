@@ -1,0 +1,9 @@
+dropitem:
+  checknearbycauldron:
+    delay: 5
+    radius: 0.1
+    secondstocheck: 20
+Cauldron:
+  secondstoboil: 30
+  blocktoupgrage: iron_block
+  maxitemsincauldron: 32

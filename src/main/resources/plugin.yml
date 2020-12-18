@@ -1,0 +1,7 @@
+name: CauldronBrew
+version: ${project.version}
+main: com.ruverq.spigot.cauldronbrew.Main
+api-version: 1.16
+prefix: ~ CauldronBrew ~
+authors: [RuverQ]
+description: Some crafts with cauldron and effects
