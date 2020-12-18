@@ -36,7 +36,6 @@ public class CraftCauldron {
         List<ItemStack> newitemStacks = new ArrayList<>(itemStacks);
         for(ItemStack itemincauldron : itemStacks){
 
-
             for(ItemStack ingr : ingredients){
                 if(Cauldron.isSimilarWithoutAmount(ingr, itemincauldron)) {
                     if (itemincauldron.getAmount() >= ingr.getAmount()) {

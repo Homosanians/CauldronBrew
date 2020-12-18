@@ -1,9 +1,10 @@
 package com.ruverq.spigot.cauldronbrew;
 
 import com.ruverq.spigot.cauldronbrew.CauldronThings.*;
-import com.ruverq.spigot.cauldronbrew.CauldronThings.hologramchiki.Hologram;
+import com.ruverq.spigot.cauldronbrew.CauldronThings.Hologramchiki.Hologram;
+import com.ruverq.spigot.cauldronbrew.Commands.CommandManager;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -12,6 +13,7 @@ import java.io.IOException;
 public final class Main extends JavaPlugin {
 
     public static Main main;
+    public static String prefix = ChatColor.YELLOW + "[CB] " + ChatColor.GRAY;
 
     File config;
     @Override
@@ -19,13 +21,13 @@ public final class Main extends JavaPlugin {
         setInstance(this);
         config = createConfig();
 
-        Bukkit.getPluginManager().registerEvents(new EventDropInCauldron(), this);
-        Bukkit.getPluginManager().registerEvents(new createCauldron(), this);
-        Bukkit.getPluginManager().registerEvents(new createCaudronByClick(), this);
-        Bukkit.getPluginManager().registerEvents(new removeCauldron(), this);
-        Bukkit.getPluginManager().registerEvents(new cleanCauldron(), this);
-
         File cauldrons = new File(Main.getInstance().getDataFolder() + File.separator + "cauldrons.yml");
+
+        Bukkit.getPluginManager().registerEvents(new EventDropInCauldron(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new createCauldron(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new createCaudronByClick(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new removeCauldron(), Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(new cleanCauldron(), Main.getInstance());
 
         try {
             cauldrons.createNewFile();
@@ -34,6 +36,7 @@ public final class Main extends JavaPlugin {
         }
 
         Cauldron.setup();
+        new CommandManager().setup();
     }
 
     @Override
@@ -45,7 +48,7 @@ public final class Main extends JavaPlugin {
 
         File config = new File(getDataFolder() + File.separator + "config.yml");
         if(!config.exists()){
-            getLogger().info("Создаю новый config файл...");
+            getLogger().info("Creating a config file...");
             getConfig().options().copyDefaults(true);
             saveDefaultConfig();
         }

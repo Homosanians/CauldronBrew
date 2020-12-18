@@ -1,4 +1,4 @@
-package com.ruverq.spigot.cauldronbrew.CauldronThings.hologramchiki;
+package com.ruverq.spigot.cauldronbrew.CauldronThings.Hologramchiki;
 
 import com.ruverq.spigot.cauldronbrew.Main;
 import org.bukkit.Location;
@@ -41,6 +41,11 @@ public class Hologram {
         new BukkitRunnable() {
             @Override
             public void run() {
+                if(hologram == null){
+                    cancel();
+                    return;
+                }
+
                 boolean isPlayerNearby = false;
                 for(Entity entity : originallocation.getWorld().getNearbyEntities(originallocation, radius, radius ,radius)){
                     if(entity instanceof Player){
@@ -50,7 +55,7 @@ public class Hologram {
                 }
                 setVisible(isPlayerNearby);
             }
-        }.runTaskTimer(Main.getInstance(), 20, 1);
+        }.runTaskTimer(Main.getInstance(), 20, 20);
     }
 
     public void setVisible(boolean visibility){

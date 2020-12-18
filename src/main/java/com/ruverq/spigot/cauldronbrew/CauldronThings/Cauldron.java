@@ -1,28 +1,22 @@
 package com.ruverq.spigot.cauldronbrew.CauldronThings;
 
-import com.ruverq.spigot.cauldronbrew.CauldronThings.ParticleManager.CParticle;
 import com.ruverq.spigot.cauldronbrew.CauldronThings.ParticleManager.ParticleManager;
-import com.ruverq.spigot.cauldronbrew.CauldronThings.hologramchiki.Hologram;
+import com.ruverq.spigot.cauldronbrew.CauldronThings.Hologramchiki.Hologram;
 import com.ruverq.spigot.cauldronbrew.Main;
 import com.sun.istack.internal.Nullable;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.cert.CertSelector;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -41,7 +35,10 @@ public class Cauldron {
     public static HashMap<String, CraftCauldron> crafts = new HashMap<>();
 
     Hologram hologram;
+    boolean hologramisEnabled = false;
+    Cauldron cauldron;
     public Cauldron(Block block){
+        cauldron = this;
         cauldronblock = block;
         itemsincauldron = new ArrayList<>();
         cauldrons.add(this);
@@ -49,9 +46,42 @@ public class Cauldron {
         checksLava();
         blockCauldronHashMap.put(block, this);
 
-        //hologram = new Hologram("Пусто.", block.getLocation().add(0.5,1.5,0.5));
-        //hologram.enableFloating(0.2f);
-        //hologram.enableVisibleInRadius(10);
+        // Hologram func
+        hologramisEnabled = Main.getInstance().getConfig().getBoolean("Hologram.enabled");
+        if(hologramisEnabled){
+            boolean boolvisibleradius = Main.getInstance().getConfig().getBoolean("Hologram.visiblinradius.enabled", true);
+            boolean boolfloating = Main.getInstance().getConfig().getBoolean("Hologram.floating.enabled", true);
+            int visibleradius = Main.getInstance().getConfig().getInt("Hologram.visiblinradius.radius", 10);
+            double distance = Main.getInstance().getConfig().getDouble("Hologram.floating.distance", 0.1);
+
+            hologram = new Hologram("Empty", block.getLocation().add(0.5,1.5,0.5));
+            if(boolfloating){
+                hologram.enableFloating((float) distance);
+            }
+            if(boolvisibleradius){
+                hologram.enableVisibleInRadius(visibleradius);
+            }
+        }
+        //
+    }
+
+    public static void reload(){
+        cauldrons.forEach(cauldron1 -> {
+            if(cauldron1.hologramisEnabled){
+                cauldron1.hologram.remove();
+            }
+        });
+        cauldrons.clear();
+        rpitems.clear();
+        crafts.clear();
+        itemsrp.clear();
+        blockCauldronHashMap.clear();
+
+        setup();
+    }
+
+    public void stop(){
+        cauldrons.remove(this);
     }
 
     public void addItem(ItemStack itemStack){
@@ -116,7 +146,12 @@ public class Cauldron {
             World world = Bukkit.getWorld(w);
             Location location = new Location(world,x,y,z);
 
-            new Cauldron(location.getBlock());
+            Block block = location.getBlock();
+            if(block.getType() != Material.CAULDRON){
+                removeCauldron(new Cauldron(location.getBlock()));
+            }else{
+                new Cauldron(location.getBlock());
+            }
         }
 
         File items = new File(Main.getInstance().getDataFolder() + File.separator + "items");
@@ -177,7 +212,6 @@ public class Cauldron {
                 ItemStack result = null;
                 if(!rpitems.containsKey(sresult)){
                     Material material = Material.matchMaterial(sresult);
-                    System.out.println(material);
                     if(material == null) continue;
                     result = new ItemStack(material);
                 }else{
@@ -269,6 +303,7 @@ public class Cauldron {
         }
 
         blockCauldronHashMap.remove(cauldron.getCauldronblock());
+        Cauldron.cauldrons.remove(cauldron);
     }
 
     private void checksLava(){
@@ -277,19 +312,10 @@ public class Cauldron {
         new BukkitRunnable() {
             @Override
             public void run() {
-                /*
-                boolean hm = false;
-                for(Entity entity : cauldronblock.getWorld().getNearbyEntities(cauldronblock.getLocation(), 10, 10 ,10)){
-                    if(entity instanceof Player){
-                        hm = true;
-                        break;
-                    }
-                }
-                if(!hm){
+                if(!cauldrons.contains(cauldron)){
+                    cancel();
                     return;
                 }
-
-                 */
 
                 if(checkAuthenticity()){
                     StartBoil();
@@ -313,7 +339,9 @@ public class Cauldron {
     }
 
     public void clear(){
-        //hologram.setDisplayName("Пусто.");
+        if(hologramisEnabled){
+            hologram.setDisplayName("Пусто.");
+        }
         itemsincauldron = new ArrayList<>();
     }
 
@@ -325,6 +353,12 @@ public class Cauldron {
         new BukkitRunnable() {
             @Override
             public void run() {
+
+                if(!cauldrons.contains(cauldron)){
+                    cancel();
+                    return;
+                }
+
                 particleswithticks(period, cauldronblock.getLocation().clone().add(0.5,1,0.5));
                 isBoing = true;
 
@@ -339,17 +373,19 @@ public class Cauldron {
                     }.runTaskLater(Main.getInstance(), 1);
 
                     removeCheck();
-                    /*
-                    StringBuilder sb = new StringBuilder();
-                    for(ItemStack items : itemsincauldron){
-                        if(items.getAmount() <= 1){
-                            sb.appe nd(getNormalName(items)).append(" ");
-                        }else{
-                            sb.append(getNormalName(items)).append("x").append(items.getAmount()).append(" ");
+
+                    if(hologramisEnabled){
+                        StringBuilder sb = new StringBuilder();
+                        for(ItemStack items : itemsincauldron){
+                            if(items.getAmount() <= 1){
+                                sb.append(getNormalName(items)).append(" ");
+                            }else{
+                                sb.append(getNormalName(items)).append("x").append(items.getAmount()).append(" ");
+                            }
                         }
+                        hologram.setDisplayName(removeLastCharacter(sb.toString()));
                     }
-                    //hologram.setDisplayName(removeLastCharacter(sb.toString()));
-                     */
+
                 }
 
                 if(!checkAuthenticity()){
@@ -366,7 +402,7 @@ public class Cauldron {
         if(item == null){
             return "";
         }
-        if(item.getItemMeta().getDisplayName().isEmpty()){
+        if(item.getItemMeta() == null || item.getItemMeta().getDisplayName().isEmpty()){
             return item.getType().getKey().toString().replace("minecraft:", "");
         }else{
             return item.getItemMeta().getDisplayName() + ChatColor.RESET;
@@ -402,11 +438,14 @@ public class Cauldron {
                 result.setAmount(result.getAmount() * resultAfterCraft.getScolko());
                 Craft(result, c.getParticleeffect(), c.getColor());
                 itemsincauldron = resultAfterCraft.getItemsnow();
+
+                itemsincauldron.removeIf(itemincoud -> itemincoud.getType() == Material.AIR);
             }
         });
     }
 
     private void Craft(ItemStack result, String effect, Color color){
+
         Location dropitems = cauldronblock.getLocation().add(0.5,0.5,0.5);
         Item item = dropitems.getWorld().dropItem(dropitems, result);
         item.setPickupDelay(60);

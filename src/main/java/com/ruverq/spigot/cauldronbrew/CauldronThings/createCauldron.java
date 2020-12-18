@@ -14,11 +14,10 @@ public class createCauldron implements Listener {
         if(e.getBlock().getType() != Material.CAULDRON) return;
         Player pl = e.getPlayer();
         String stringmaterialtoupgrage = Main.getInstance().getConfig().getString("Cauldron.blocktoupgrage", "");
+
         if(stringmaterialtoupgrage.isEmpty()){
             Cauldron cauldron = new Cauldron(e.getBlock());
             Cauldron.saveCauldron(cauldron);
-        }else{
-
         }
 
     }

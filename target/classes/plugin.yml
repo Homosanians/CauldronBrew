@@ -1,5 +1,5 @@
 name: CauldronBrew
-version: ${project.version}
+version: 0.1-Alpha
 main: com.ruverq.spigot.cauldronbrew.Main
 api-version: 1.16
 prefix: ~ CauldronBrew ~

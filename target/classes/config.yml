@@ -11,7 +11,7 @@ dropitem:
     radius: 0.1
     secondstocheck: 20
 
-#Holograms in SUPERALPHA!!!!
+#Holograms in super alpha
 Hologram:
   enabled: false
   visiblinradius:
