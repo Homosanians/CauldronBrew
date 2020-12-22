@@ -1,3 +1,5 @@
+Localization: en
+
 #Main Settings of cauldron
 Cauldron:
   secondstoboil: 10
@@ -11,7 +13,7 @@ dropitem:
     radius: 0.1
     secondstocheck: 20
 
-#Holograms in super alpha
+#Holograms in SUPERALPHA!!!!
 Hologram:
   enabled: false
   visiblinradius:
@@ -20,3 +22,6 @@ Hologram:
   floating:
     enabled: true
     distance: 0.2
+
+#dont touch
+configversion: 0.1

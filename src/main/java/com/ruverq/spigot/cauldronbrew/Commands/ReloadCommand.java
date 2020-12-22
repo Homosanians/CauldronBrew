@@ -9,7 +9,8 @@ public class ReloadCommand extends SubCommand{
     public void OnCommand(Player player, String[] args) {
         Main.getInstance().reloadConfig();
         Cauldron.reload();
-        player.sendMessage(Main.prefix + "Reloaded!");
+        Main.mm.reload();
+        player.sendMessage(Main.mm.getMessage("prefix") + Main.mm.getMessage("command_reload_success"));
     }
 
     @Override

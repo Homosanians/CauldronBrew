@@ -1,9 +1,10 @@
 # CauldronBrew
 _Spigot plugin that can make things in cauldron_
 
-# Config Example:
-
+# Config file
 ```yml
+Localization: en
+
 #Main Settings of cauldron
 Cauldron:
   secondstoboil: 10
@@ -26,4 +27,7 @@ Hologram:
   floating:
     enabled: true
     distance: 0.2
+
+#dont touch
+configversion: 0.1
 ```

@@ -3,6 +3,7 @@
     <output-path>$USER_HOME$/Desktop/OtherWorld Server/plugins</output-path>
     <root id="archive" name="CauldronBrew.jar">
       <element id="module-output" name="CauldronBrew" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-io/commons-io/2.8.0/commons-io-2.8.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

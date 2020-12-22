@@ -1,5 +1,6 @@
 package com.ruverq.spigot.cauldronbrew.Commands;
 
+import com.ruverq.spigot.cauldronbrew.CauldronThings.Localization.MessagesManager;
 import com.ruverq.spigot.cauldronbrew.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -26,11 +27,13 @@ public class CommandManager implements CommandExecutor {
     public List<String> subcomm = new ArrayList<>();
 
     public List<String> helpinfo = new ArrayList<>();
-    private final String prefix = Main.prefix;
+    private String prefix = Main.prefix;
+    private final MessagesManager mm = Main.mm;
 
     //Help info
 
     public void setup(){
+        prefix = mm.getMessage("prefix");
         plugin.getCommand(main).setExecutor(this);
 
         this.commands.add(new AddItem());
@@ -40,7 +43,7 @@ public class CommandManager implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if(!(sender instanceof Player)){
-            sender.sendMessage(prefix + ChatColor.RED + "This command is not executable from the console");
+            sender.sendMessage(prefix + mm.getMessage("commands_error_notplayer"));
             return true;
         }
         Player player = (Player) sender;
@@ -66,7 +69,7 @@ public class CommandManager implements CommandExecutor {
             try{
                 target.OnCommand(player, args);
             }catch (Exception eee){
-                player.sendMessage("");
+                player.sendMessage(prefix + mm.getMessage("commands_error"));
                 eee.printStackTrace();
             }
 
@@ -78,7 +81,7 @@ public class CommandManager implements CommandExecutor {
         Iterator<SubCommand> SubCommands = this.commands.iterator();
 
         while(SubCommands.hasNext()){
-            SubCommand sc = (SubCommand) SubCommands.next();
+            SubCommand sc = SubCommands.next();
             if(sc.name().equalsIgnoreCase(name)){
                 return sc;
             }

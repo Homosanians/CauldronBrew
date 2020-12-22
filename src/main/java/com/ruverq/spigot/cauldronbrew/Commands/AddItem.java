@@ -1,6 +1,7 @@
 package com.ruverq.spigot.cauldronbrew.Commands;
 
 import com.ruverq.spigot.cauldronbrew.CauldronThings.Cauldron;
+import com.ruverq.spigot.cauldronbrew.CauldronThings.Localization.MessagesManager;
 import com.ruverq.spigot.cauldronbrew.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,14 +15,16 @@ import java.io.IOException;
 
 public class AddItem extends SubCommand {
 
-    private final String prefix = Main.prefix;
+    private final String prefix = mm.getMessage("prefix");
+    private static final MessagesManager mm = Main.mm;
     
     @Override
     public void OnCommand(Player player, String[] args){
 
+
         if(args.length < 2){
-            player.sendMessage(ChatColor.RED + prefix + "Please provide a name for item. ");
-            player.sendMessage(ChatColor.RED + prefix + "Usage: /cb " + name() + " swordfromsky");
+            player.sendMessage(prefix + mm.getMessage("command_additem_error_arguments"));
+            player.sendMessage(prefix + mm.getMessage("command_additem_usage"));
             return;
         }
 
@@ -29,7 +32,7 @@ public class AddItem extends SubCommand {
         ItemStack item = null;
         if(player.getInventory().getItemInMainHand().getType() == Material.AIR){
             if(player.getInventory().getItemInOffHand().getType() == Material.AIR){
-                player.sendMessage(ChatColor.RED + prefix + "You are not holding any item");
+                player.sendMessage(prefix + mm.getMessage("command_additem_error_notholdingitem"));
                 return;
             }else{
                 item = player.getInventory().getItemInOffHand();
@@ -39,7 +42,7 @@ public class AddItem extends SubCommand {
         }
 
         if(Cauldron.rpitems.get(name) != null){
-            player.sendMessage(ChatColor.RED + prefix + "Item with exactly this name already exists");
+            player.sendMessage(prefix + mm.getMessage("command_additem_error_name"));
             return;
         }
         String a = addItem(name, item);
@@ -48,7 +51,9 @@ public class AddItem extends SubCommand {
             return;
         }
 
-        player.sendMessage(ChatColor.YELLOW + prefix + "Item " + ChatColor.GOLD + name + ChatColor.YELLOW + " successfully added to the list");
+        String messagesucc = prefix + mm.getMessage("command_additem_success");
+        messagesucc.replace("%itemname%", name);
+        player.sendMessage(messagesucc);
 
     }
 

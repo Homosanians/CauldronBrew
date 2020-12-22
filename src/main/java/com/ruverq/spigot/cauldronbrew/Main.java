@@ -2,6 +2,7 @@ package com.ruverq.spigot.cauldronbrew;
 
 import com.ruverq.spigot.cauldronbrew.CauldronThings.*;
 import com.ruverq.spigot.cauldronbrew.CauldronThings.Hologramchiki.Hologram;
+import com.ruverq.spigot.cauldronbrew.CauldronThings.Localization.MessagesManager;
 import com.ruverq.spigot.cauldronbrew.Commands.CommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,11 +10,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public final class Main extends JavaPlugin {
 
     public static Main main;
     public static String prefix = ChatColor.YELLOW + "[CB] " + ChatColor.GRAY;
+    public static MessagesManager mm;
 
     File config;
     @Override
@@ -34,9 +37,16 @@ public final class Main extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        mm = new MessagesManager();
+        try {
+            mm.setUp();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Cauldron.setup();
         new CommandManager().setup();
+
     }
 
     @Override
