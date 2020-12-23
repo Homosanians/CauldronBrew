@@ -1,7 +1,7 @@
 package com.ruverq.spigot.cauldronbrew.CauldronThings;
 
-import com.ruverq.spigot.cauldronbrew.CauldronThings.ParticleManager.ParticleManager;
 import com.ruverq.spigot.cauldronbrew.CauldronThings.Hologramchiki.Hologram;
+import com.ruverq.spigot.cauldronbrew.CauldronThings.ParticleManager.ParticleManager;
 import com.ruverq.spigot.cauldronbrew.Main;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -48,9 +48,9 @@ public class Cauldron {
         // Hologram func
         hologramisEnabled = Main.getInstance().getConfig().getBoolean("Hologram.enabled");
         if(hologramisEnabled){
-            boolean boolvisibleradius = Main.getInstance().getConfig().getBoolean("Hologram.visiblinradius.enabled", true);
+            boolean boolvisibleradius = Main.getInstance().getConfig().getBoolean("Hologram.visibleInRadius.enabled", true);
             boolean boolfloating = Main.getInstance().getConfig().getBoolean("Hologram.floating.enabled", true);
-            int visibleradius = Main.getInstance().getConfig().getInt("Hologram.visiblinradius.radius", 10);
+            int visibleradius = Main.getInstance().getConfig().getInt("Hologram.visibleInRadius.radius", 10);
             double distance = Main.getInstance().getConfig().getDouble("Hologram.floating.distance", 0.1);
 
             hologram = new Hologram("Empty", block.getLocation().add(0.5,1.5,0.5));
@@ -130,7 +130,7 @@ public class Cauldron {
             e.printStackTrace();
         }
 
-        File cauldrons = new File(Main.getInstance().getInstance().getDataFolder() + File.separator + "cauldrons.yml");
+        File cauldrons = new File(Main.getInstance().getDataFolder() + File.separator + "cauldrons.yml");
         FileConfiguration yml_cauldrons = YamlConfiguration.loadConfiguration(cauldrons);
 
         List<String> strings = yml_cauldrons.getStringList("Cauldrons");
@@ -265,7 +265,7 @@ public class Cauldron {
 
     public static void saveCauldron(Cauldron cauldron){
 
-        File cauldrons = new File(Main.getInstance().getInstance().getDataFolder() + File.separator + "cauldrons.yml");
+        File cauldrons = new File(Main.getInstance().getDataFolder() + File.separator + "cauldrons.yml");
         FileConfiguration yml_cauldrons = YamlConfiguration.loadConfiguration(cauldrons);
 
         List<String> strings = yml_cauldrons.getStringList("Cauldrons");
@@ -284,7 +284,7 @@ public class Cauldron {
 
     public static void removeCauldron(Cauldron cauldron){
         if(cauldron == null) return;
-        File cauldrons = new File(Main.getInstance().getInstance().getDataFolder() + File.separator + "cauldrons.yml");
+        File cauldrons = new File(Main.getInstance().getDataFolder() + File.separator + "cauldrons.yml");
         FileConfiguration yml_cauldrons = YamlConfiguration.loadConfiguration(cauldrons);
 
         List<String> strings = yml_cauldrons.getStringList("Cauldrons");
@@ -345,7 +345,7 @@ public class Cauldron {
     }
 
     private void StartBoil(){
-        int secondstoboil = Main.getInstance().getInstance().getConfig().getInt("Cauldron.secondstoboil", 1);
+        int secondstoboil = Main.getInstance().getConfig().getInt("Cauldron.secondstoboil", 1);
 
         if(isBoing) return;
         int period = 20;
@@ -476,14 +476,14 @@ public class Cauldron {
 
             @Override
             public void run() {
-                location.getWorld().spawnParticle(Particle.REDSTONE, location, 2, 0.15, 0, 0.15, 1, new Particle.DustOptions(Color.AQUA, 0.3f));
+                location.getWorld().spawnParticle(Particle.REDSTONE, location, 2, 0.15, 0, 0.15, 1, new Particle.DustOptions(Color.AQUA, 0.5f));
 
                 if(timess >= 10){
                     cancel();
                 }
                 timess++;
             }
-        }.runTaskTimer(Main.getInstance().getInstance(), 0, period / 10);
+        }.runTaskTimer(Main.getInstance(), 0, period / 10);
     }
 
     public static Cauldron getCauldron(Block block){

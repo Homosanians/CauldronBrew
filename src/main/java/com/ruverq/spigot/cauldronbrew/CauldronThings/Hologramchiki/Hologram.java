@@ -47,7 +47,7 @@ public class Hologram {
                 }
 
                 boolean isPlayerNearby = false;
-                for(Entity entity : originallocation.getWorld().getNearbyEntities(originallocation, radius, radius ,radius)){
+                for(Entity entity : originallocation.getWorld().getNearbyEntities(originallocation, 1, radius ,radius)){
                     if(entity instanceof Player){
                         isPlayerNearby = true;
                         break;
