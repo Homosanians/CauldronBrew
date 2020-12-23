@@ -51,8 +51,7 @@ public class AddItem extends SubCommand {
             return;
         }
 
-        String messagesucc = prefix + mm.getMessage("command_additem_success");
-        messagesucc.replace("%itemname%", name);
+        String messagesucc = prefix + mm.getMessage("command_additem_success").replace("%itemname%", name);
         player.sendMessage(messagesucc);
 
     }

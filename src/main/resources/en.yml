@@ -1,6 +1,6 @@
 code: en
 
-prefix: "&e[CB]&7"
+prefix: "&e[CB]&7 "
 
 #Commands
 commands_error_notplayer: "&cThis command is not executable from the console"
