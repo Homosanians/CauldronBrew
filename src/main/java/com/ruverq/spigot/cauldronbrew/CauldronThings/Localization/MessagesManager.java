@@ -1,15 +1,13 @@
 package com.ruverq.spigot.cauldronbrew.CauldronThings.Localization;
 
 import com.ruverq.spigot.cauldronbrew.Main;
-import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.util.FileUtil;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -31,11 +29,11 @@ public class MessagesManager {
         }
         if(!loc_en.exists()){
             InputStream deffile = getFileFromResource("en.yml");
-            FileUtils.copyInputStreamToFile(deffile, loc_en);
+            copyInputStreamToFile(deffile, loc_en);
         }
         if(!loc_ru.exists()){
             InputStream deffile = getFileFromResource("ru.yml");
-            FileUtils.copyInputStreamToFile(deffile, loc_ru);
+            copyInputStreamToFile(deffile, loc_ru);
         }
 
         loadAllLocalizations();
@@ -89,5 +87,24 @@ public class MessagesManager {
     public String getMessage(String code){
         code = code.toLowerCase(Locale.ROOT);
         return keylist.get(code);
+    }
+
+    private static void copyInputStreamToFile(InputStream inputStream, File file)
+            throws IOException {
+
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+
+            int read;
+            byte[] bytes = new byte[1024];
+
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+
+            // commons-io
+            //IOUtils.copy(inputStream, outputStream);
+
+        }
+
     }
 }
