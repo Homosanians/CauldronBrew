@@ -3,7 +3,6 @@ package com.ruverq.spigot.cauldronbrew.CauldronThings;
 import com.ruverq.spigot.cauldronbrew.CauldronThings.ParticleManager.ParticleManager;
 import com.ruverq.spigot.cauldronbrew.CauldronThings.Hologramchiki.Hologram;
 import com.ruverq.spigot.cauldronbrew.Main;
-import com.sun.istack.internal.Nullable;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -487,7 +486,6 @@ public class Cauldron {
         }.runTaskTimer(Main.getInstance().getInstance(), 0, period / 10);
     }
 
-    @Nullable
     public static Cauldron getCauldron(Block block){
         return blockCauldronHashMap.get(block);
     }
