@@ -3,29 +3,28 @@ _Spigot plugin that can make things in cauldron_
 
 [Link to the spigot page](https://www.spigotmc.org/resources/cauldronbrew.86981/)
 
-## 
 ### Config file
 ```yml
 Localization: en
 
 # Main Settings of cauldron
 Cauldron:
-  secondstoboil: 10 # Seconds to boil
-  blocktoupgrage: iron_block # Click on block to upgrade. If you want craft in cauldron without upgrade. Just leave this empty
-  maxitemsincauldron: 32 # How much items cauldron can take
+  secondsToBoil: 10 # Seconds to boil
+  blockToUpgrage: iron_block # Click on block to upgrade. If you want craft in cauldron without upgrade. Just leave this empty
+  maxItemsInCauldron: 32 # How much items cauldron can take
 
 # Event PlayerDropItem and checks where item is to drop in cauldron
 # You can just forget about it
-dropitem:
-  checknearbycauldron:
+dropItem:
+  checkNearByCauldron:
     delay: 5
     radius: 0.1
-    secondstocheck: 20
+    secondsToCheck: 20
 
-# Holograms in SUPER ALPHA!!!!
+# Holograms in SUPER ALPHA!
 Hologram:
   enabled: false
-  visiblinradius:
+  visibleInRadius:
     enabled: true
     radius: 10
   floating:
@@ -33,7 +32,7 @@ Hologram:
     distance: 0.2
 
 # Don't touch
-configversion: 0.1
+configVersion: 0.11
 ```
 
 ### Crafts file

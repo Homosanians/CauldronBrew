@@ -22,7 +22,7 @@ public class createCaudronByClick implements Listener {
         if(e.getClickedBlock().getType() != Material.CAULDRON) return;
         if(Cauldron.getCauldron(e.getClickedBlock()) != null) return;
         if(e.getItem() == null) return;
-        String stringmaterialtoupgrage = Main.getInstance().getConfig().getString("Cauldron.blocktoupgrage", "");
+        String stringmaterialtoupgrage = Main.getInstance().getConfig().getString("Cauldron.blockToUpgrage", "");
         Material material = Material.matchMaterial(stringmaterialtoupgrage);
         if(e.getItem().getType() == material){
             e.setCancelled(true);
@@ -49,8 +49,8 @@ public class createCaudronByClick implements Listener {
             new BukkitRunnable() {
 
                 Location beforepoint = null;
-                int quality = 10;
-                int iterations = 5;
+                final int quality = 10;
+                final int iterations = 5;
                 int i = 0;
 
                 @Override

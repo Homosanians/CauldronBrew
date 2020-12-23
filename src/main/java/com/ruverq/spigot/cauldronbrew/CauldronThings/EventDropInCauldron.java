@@ -3,7 +3,6 @@ package com.ruverq.spigot.cauldronbrew.CauldronThings;
 import com.ruverq.spigot.cauldronbrew.Main;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,11 +20,11 @@ public class EventDropInCauldron implements Listener {
     public void onDropInCauldron(PlayerDropItemEvent e){
         Item itementity = e.getItemDrop();
 
-        float radius = (float) Main.getInstance().getConfig().getDouble("dropitem.checknearbycauldron.radius", 0.1);
-        int delay = Main.getInstance().getConfig().getInt("dropitem.checknearbycauldron.delay", 5);
-        int period = Main.getInstance().getConfig().getInt("dropitem.checknearbycauldron.period", 5);
-        int secondstocheck = Main.getInstance().getConfig().getInt("dropitem.checknearbycauldron.secondstocheck", 20);
-        int maxitemsincauldron = Main.getInstance().getConfig().getInt("Cauldron.maxitemsincauldron", 32);
+        float radius = (float) Main.getInstance().getConfig().getDouble("dropitem.checkNearByCauldron.radius", 0.1);
+        int delay = Main.getInstance().getConfig().getInt("dropItem.checkNearByCauldron.delay", 5);
+        int period = Main.getInstance().getConfig().getInt("dropItem.checkNearByCauldron.period", 5);
+        int secondstocheck = Main.getInstance().getConfig().getInt("dropItem.checkNearByCauldron.secondsToCheck", 20);
+        int maxitemsincauldron = Main.getInstance().getConfig().getInt("Cauldron.maxItemsInCauldron", 32);
 
         new BukkitRunnable() {
 

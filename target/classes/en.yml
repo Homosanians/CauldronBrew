@@ -1,0 +1,18 @@
+code: en
+
+prefix: "&e[CB]&7 "
+
+#Commands
+commands_error_notplayer: "&cThis command is not executable from the console"
+commands_error: "&cUnexpected error"
+
+command_additem_error_arguments: "&cPlease provide a name for item. "
+command_additem_usage: "Usage: /cb additem swordfromsky"
+command_additem_error_notholdingitem: "&cYou are not holding any item"
+command_additem_error_name: "&cItem with exactly this name already exists"
+command_additem_success: "&eItem &6%itemname% &esuccessfully added to the list"
+
+command_reload_success: "&7Reloaded!"
+
+#Hologram
+hologram_empty: "Empty"

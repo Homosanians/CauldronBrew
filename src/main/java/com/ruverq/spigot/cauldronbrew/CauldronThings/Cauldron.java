@@ -49,9 +49,9 @@ public class Cauldron {
         // Hologram func
         hologramisEnabled = Main.getInstance().getConfig().getBoolean("Hologram.enabled");
         if(hologramisEnabled){
-            boolean boolvisibleradius = Main.getInstance().getConfig().getBoolean("Hologram.visiblinradius.enabled", true);
+            boolean boolvisibleradius = Main.getInstance().getConfig().getBoolean("Hologram.visibleInRadius.enabled", true);
             boolean boolfloating = Main.getInstance().getConfig().getBoolean("Hologram.floating.enabled", true);
-            int visibleradius = Main.getInstance().getConfig().getInt("Hologram.visiblinradius.radius", 10);
+            int visibleradius = Main.getInstance().getConfig().getInt("Hologram.visibleInRadius.radius", 10);
             double distance = Main.getInstance().getConfig().getDouble("Hologram.floating.distance", 0.1);
 
             hologram = new Hologram("Empty", block.getLocation().add(0.5,1.5,0.5));
