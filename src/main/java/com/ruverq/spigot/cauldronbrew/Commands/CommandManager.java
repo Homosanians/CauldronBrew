@@ -2,7 +2,6 @@ package com.ruverq.spigot.cauldronbrew.Commands;
 
 import com.ruverq.spigot.cauldronbrew.CauldronThings.Localization.MessagesManager;
 import com.ruverq.spigot.cauldronbrew.Main;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,7 +16,7 @@ public class CommandManager implements CommandExecutor {
 
     // Thanks for tutorial, {TheSourceCode}!
 
-    private ArrayList<SubCommand> commands = new ArrayList<SubCommand>();
+    private final ArrayList<SubCommand> commands = new ArrayList<SubCommand>();
 
     private final Main plugin = Main.getInstance();
 

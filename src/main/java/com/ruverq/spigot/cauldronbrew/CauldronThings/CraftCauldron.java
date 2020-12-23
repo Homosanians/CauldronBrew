@@ -1,6 +1,5 @@
 package com.ruverq.spigot.cauldronbrew.CauldronThings;
 
-import com.ruverq.spigot.cauldronbrew.CauldronThings.ParticleManager.CParticle;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

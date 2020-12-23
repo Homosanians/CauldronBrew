@@ -20,7 +20,7 @@ public class EpicParticle implements CParticle {
     private final float radius = 0.5f;
     private float angle = 0f;
     private final int speed = 2;
-    private int count = 3;
+    private final int count = 3;
 
     @Override
     public void executeParticles(Location location, Color color) {

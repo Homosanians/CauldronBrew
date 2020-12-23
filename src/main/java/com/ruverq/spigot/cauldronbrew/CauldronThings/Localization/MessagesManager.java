@@ -100,10 +100,6 @@ public class MessagesManager {
             while ((read = inputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, read);
             }
-
-            // commons-io
-            //IOUtils.copy(inputStream, outputStream);
-
         }
 
     }
