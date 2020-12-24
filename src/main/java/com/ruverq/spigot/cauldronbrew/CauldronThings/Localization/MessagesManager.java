@@ -4,36 +4,36 @@ import com.ruverq.spigot.cauldronbrew.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Locale;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class MessagesManager {
     Main plugin = Main.getInstance();
     HashMap<String, String> keylist = new HashMap<>();
 
     public void setUp() throws IOException {
-        File loc = new File(Main.getInstance().getDataFolder() + File.separator + "localization");
+        File locDir = new File(Main.getInstance().getDataFolder() + File.separator + "localization");
 
-        File loc_en = new File(Main.getInstance().getDataFolder() + File.separator + "localization" + File.separator + "en" + ".yml");
-        File loc_ru = new File(Main.getInstance().getDataFolder() + File.separator + "localization" + File.separator + "ru" + ".yml");
-
-        if(!loc.exists()){
-            Path path = loc.toPath();
+        if(!locDir.exists()){
+            Path path = locDir.toPath();
             Files.createDirectories(path);
         }
-        if(!loc_en.exists()){
-            InputStream deffile = getFileFromResource("en.yml");
-            copyInputStreamToFile(deffile, loc_en);
-        }
-        if(!loc_ru.exists()){
-            InputStream deffile = getFileFromResource("ru.yml");
-            copyInputStreamToFile(deffile, loc_ru);
+
+        List<String> locCodes = getLocFiles();
+
+        for (String code : locCodes) {
+            File locFile = new File(Main.getInstance().getDataFolder()
+                    + File.separator + "localization" + File.separator + code + ".yml");
+
+            if (!locFile.exists()) {
+                InputStream deffile = getFileFromResource(code + ".yml");
+                copyInputStreamToFile(deffile, locFile);
+            }
         }
 
         loadAllLocalizations();
@@ -56,6 +56,27 @@ public class MessagesManager {
 
             }
         }
+    }
+
+    private List<String> getLocFiles() {
+        List<String> filenames = new ArrayList<>();
+
+        try {
+            URL resource = plugin.getClass().getResource("/messages");
+            File locMessagesDir = Paths.get(resource.toURI()).toFile();
+
+            for (final File f : Objects.requireNonNull(locMessagesDir.listFiles())) {
+                if (f.isFile()) {
+                    if (f.getName().matches(".*\\.yml")) {
+                        filenames.add(f.getAbsolutePath());
+                    }
+                }
+
+            }
+        }
+        catch (URISyntaxException e) { }
+
+        return filenames;
     }
 
     public void loadLocalization(String loc){
